@@ -13,6 +13,6 @@ enum ShapeKind {
 }
 
 type Action = {
-  user: User,
-  direction: Direction
+    user: User,
+    direction: Direction
 }
