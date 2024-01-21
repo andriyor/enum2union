@@ -7,18 +7,17 @@ Convert Enums to Union types
 - Input:
 ```ts
 enum Direction {
-  Up = 'UP',
-  Down = 'DOWN',
+    Up = 'UP', 
+    Down = 'DOWN',
 }
 ```
 
-- Output (after running prettier):
+- Output:
 ```ts
 export const Direction = {
-  Up: "UP",
-  Down: "DOWN",
+    Up: "UP",
+    Down: "DOWN",
 } as const;
-
 export type Direction = (typeof Direction)[keyof typeof Direction];
 ```
 
