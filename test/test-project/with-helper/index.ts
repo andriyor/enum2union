@@ -4,3 +4,8 @@ enum Direction {
   Left = 'LEFT',
   Right = 'RIGHT',
 }
+
+enum ShapeKind {
+  Circle = 'Circle',
+  Square = 'Square'
+}

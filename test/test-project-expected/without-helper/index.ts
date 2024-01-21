@@ -4,5 +4,4 @@ export const Direction = {
     Left: "LEFT",
     Right: "RIGHT"
 } as const;
-
 export type Direction = (typeof Direction)[keyof typeof Direction];

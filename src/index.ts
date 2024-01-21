@@ -42,14 +42,10 @@ export const transform = async (config: Config) => {
   }
 
   sourceFiles.forEach((sourceFile) => {
-    if (config.helperDir) {
-      const relativePath = path.relative(path.dirname(sourceFile.getFilePath()), path.resolve(config.helperDir));
-      const importPath = relativePath ? `./${relativePath}/${helperBaseFileName}` : `./${helperBaseFileName}`;
-      const importDeclaration = createImportDeclaration(importPath);
-      sourceFile.insertStatements(0, printNode(importDeclaration));
-    }
+    let isHelperImported = false;
+    const enumDeclarations = sourceFile.getDescendantsOfKind(SyntaxKind.EnumDeclaration);
 
-    sourceFile.getDescendantsOfKind(SyntaxKind.EnumDeclaration).forEach((enumDeclaration) => {
+    for (const enumDeclaration of enumDeclarations) {
       const enumMembers = enumDeclaration.getMembers();
       const isStringEnum = enumMembers.every((enumMember) =>
         enumMember.getInitializer()?.isKind(SyntaxKind.StringLiteral),
@@ -66,21 +62,28 @@ export const transform = async (config: Config) => {
 
         const enumIndex = enumDeclaration.getChildIndex();
 
-        enumDeclaration.remove();
-
         if (config.helperDir) {
-          sourceFile.insertStatements(enumIndex + 1, '\n' + printNode(variableStatement));
+          if (!isHelperImported) {
+            const relativePath = path.relative(path.dirname(sourceFile.getFilePath()), path.resolve(config.helperDir));
+            const importPath = relativePath ? `./${relativePath}/${helperBaseFileName}` : `./${helperBaseFileName}`;
+            const importDeclaration = createImportDeclaration(importPath);
+            sourceFile.insertStatements(0, printNode(importDeclaration));
+            isHelperImported = true;
+          }
+
+          sourceFile.insertStatements(enumIndex + 1, printNode(variableStatement));
 
           const typeAliasDeclaration = createTypeAliasDeclarationWithHelper(varMeta.name);
-          sourceFile.insertStatements(enumIndex + 2, '\n' + printNode(typeAliasDeclaration));
+          sourceFile.insertStatements(enumIndex + 2,  printNode(typeAliasDeclaration));
         } else {
           sourceFile.insertStatements(enumIndex, printNode(variableStatement));
 
           const typeAliasDeclaration = createTypeAliasDeclaration(varMeta.name);
-          sourceFile.insertStatements(enumIndex + 1, '\n' + printNode(typeAliasDeclaration));
+          sourceFile.insertStatements(enumIndex + 1, printNode(typeAliasDeclaration));
         }
+        enumDeclaration.remove();
       }
-    });
+    }
   });
 
   return project.save();
