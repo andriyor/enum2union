@@ -4,7 +4,7 @@ export const Direction = {
     Up: "UP",
     Down: "DOWN",
     Left: "LEFT",
-    Right: "RIGHT",
+    Right: "RIGHT"
 } as const;
 
 export type Direction = ObjectValues<typeof Direction>;
