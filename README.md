@@ -57,6 +57,20 @@ transform({
 });
 ```
 
+## Why not to use enums?
+
+[Typescript has unions, so are enums redundant? - Stack Overflow](https://stackoverflow.com/questions/40275832/typescript-has-unions-so-are-enums-redundant/60041791#60041791)
+
+[Enums considered harmful - YouTube](https://www.youtube.com/watch?v=jjMbPt_H3RQ)
+
+[Enums are MISUNDERSTOOD (not terrible): Josh Goldberg, typescript-eslint maintainer - YouTube](https://youtu.be/XTXPKbPcvl4?si=fM0egcwNxVatXDsN&t=1146)
+
+
+## Related Projects
+
+[benjlevesque/codemod-enum-to-union](https://github.com/benjlevesque/codemod-enum-to-union) doesn't have ObjectValues helper, the code is formatted worse
+
+
 ## TODO
 
 - [x] transform string enum to union
