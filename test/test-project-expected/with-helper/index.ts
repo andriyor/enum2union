@@ -1,4 +1,4 @@
-import { ObjectValues } from './types/object-values';
+import { ObjectValues } from "./types/object-values";
 
 export const Direction = {
   Up: 'UP',
