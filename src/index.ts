@@ -10,7 +10,7 @@ import {
   createVariableStatement,
 } from './helpers';
 import { Config, VarMeta } from './types';
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'path';
 
 const parsed = typeFlag({
@@ -26,19 +26,19 @@ const parsed = typeFlag({
 
 const helperBaseFileName = 'object-values';
 
-const createHelperFile = (helperDirectory: string) => {
+const createHelperFile = async (helperDirectory: string) => {
   const helperFileName = `${helperBaseFileName}.ts`;
   const helperCode = 'export type ObjectValues<T> = T[keyof T];';
   const helperPath = `${helperDirectory}/${helperFileName}`;
-  fs.writeFileSync(helperPath, helperCode);
+  await fs.writeFile(helperPath, helperCode);
 };
 
-export const transform = (config: Config) => {
+export const transform = async (config: Config) => {
   const project = new Project({ tsConfigFilePath: 'tsconfig.json' });
   const sourceFiles = project.getSourceFiles(config.projectFiles);
 
   if (config.helperDir) {
-    createHelperFile(config.helperDir);
+    await createHelperFile(config.helperDir);
   }
 
   sourceFiles.forEach((sourceFile) => {

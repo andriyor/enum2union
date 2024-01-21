@@ -2,11 +2,10 @@ import path from 'path';
 
 import { globSync } from 'glob';
 
-const zip = (rows: string[][]) =>
-  rows[0].map((_, c) => rows.map((row) => row[c]));
+const zip = (rows: string[][]) => rows[0].map((_, c) => rows.map((row) => row[c]));
 
 const getProjectFilesByPath = (projectPath: string) => {
-  return globSync(`${projectPath}/**`, {
+  return globSync(`${projectPath}/**/*.{tsx,ts}`, {
     stat: true,
     withFileTypes: true,
   })
@@ -16,8 +15,6 @@ const getProjectFilesByPath = (projectPath: string) => {
 
 export const prepareTestCases = () => {
   const testProjectFiles = getProjectFilesByPath('test/test-project');
-  const testProjectFilesExpected = getProjectFilesByPath(
-    'test/test-project-expected'
-  );
+  const testProjectFilesExpected = getProjectFilesByPath('test/test-project-expected');
   return zip([testProjectFiles, testProjectFilesExpected]);
 };
