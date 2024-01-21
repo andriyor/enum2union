@@ -22,6 +22,12 @@ export type Direction = (typeof Direction)[keyof typeof Direction];
 ```
 
 - Output with helperDir option:
+
+`object-values.ts`
+```typescript
+export type ObjectValues<T> = T[keyof T];
+```
+
 ```ts
 import { ObjectValues } from "./types/object-values";
 export const Direction = {
