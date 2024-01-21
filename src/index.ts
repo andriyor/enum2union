@@ -42,6 +42,13 @@ export const transform = async (config: Config) => {
   }
 
   sourceFiles.forEach((sourceFile) => {
+    if (config.helperDir) {
+      const relativePath = path.relative(path.dirname(sourceFile.getFilePath()), path.resolve(config.helperDir));
+      const importPath = relativePath ? `./${relativePath}/${helperBaseFileName}` : `./${helperBaseFileName}`;
+      const importDeclaration = createImportDeclaration(importPath);
+      sourceFile.insertStatements(0, printNode(importDeclaration));
+    }
+
     sourceFile.getDescendantsOfKind(SyntaxKind.EnumDeclaration).forEach((enumDeclaration) => {
       const enumMembers = enumDeclaration.getMembers();
       const isStringEnum = enumMembers.every((enumMember) =>
@@ -62,11 +69,6 @@ export const transform = async (config: Config) => {
         enumDeclaration.remove();
 
         if (config.helperDir) {
-          const relativePath = path.relative(path.dirname(sourceFile.getFilePath()), path.resolve(config.helperDir));
-          const importPath = relativePath ? `./${relativePath}/${helperBaseFileName}` : `./${helperBaseFileName}`;
-          const importDeclaration = createImportDeclaration(importPath);
-          sourceFile.insertStatements(0, printNode(importDeclaration));
-
           sourceFile.insertStatements(enumIndex + 1, '\n' + printNode(variableStatement));
 
           const typeAliasDeclaration = createTypeAliasDeclarationWithHelper(varMeta.name);

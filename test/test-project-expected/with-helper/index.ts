@@ -8,3 +8,10 @@ export const Direction = {
 } as const;
 
 export type Direction = ObjectValues<typeof Direction>;
+
+export const ShapeKind = {
+    Circle: "Circle",
+    Square: "Square"
+} as const;
+
+export type ShapeKind = ObjectValues<typeof ShapeKind>;
