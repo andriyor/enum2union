@@ -14,8 +14,8 @@ beforeAll(async () => {
     projectFiles: path.join(process.cwd(), './test/test-project/without-helper/**/*.{tsx,ts}'),
   });
   await transform({
-    projectFiles: path.join('./test/test-project/with-helper/**/*.{tsx,ts}'),
-    helperDir: path.join('./test/test-project/with-helper/types'),
+    projectFiles: path.join(process.cwd(), './test/test-project/with-helper/**/*.{tsx,ts}'),
+    helperDir: path.join(process.cwd(), './test/test-project/with-helper/types'),
   });
 });
 
