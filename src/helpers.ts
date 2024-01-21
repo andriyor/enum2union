@@ -48,6 +48,32 @@ export const createTypeAliasDeclaration = (name: string) => {
   );
 };
 
+export const createTypeAliasDeclarationWithHelper = (name: string) => {
+  return ts.factory.createTypeAliasDeclaration(
+    [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+    ts.factory.createIdentifier(name),
+    undefined,
+    ts.factory.createTypeReferenceNode(ts.factory.createIdentifier('ObjectValues'), [
+      ts.factory.createTypeQueryNode(ts.factory.createIdentifier(name), undefined),
+    ]),
+  );
+};
+
+export const createImportDeclaration = (importPath: string) => {
+  return ts.factory.createImportDeclaration(
+    undefined,
+    ts.factory.createImportClause(
+      false,
+      undefined,
+      ts.factory.createNamedImports([
+        ts.factory.createImportSpecifier(false, undefined, ts.factory.createIdentifier('ObjectValues')),
+      ]),
+    ),
+    ts.factory.createStringLiteral(importPath),
+    undefined,
+  );
+};
+
 export const createObjectFromEnum = (enumDeclaration: EnumDeclaration) => {
   const object: StringObject = {};
   enumDeclaration.getMembers().forEach((enumMember) => {

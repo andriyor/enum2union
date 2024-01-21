@@ -28,7 +28,7 @@ export type Direction = (typeof Direction)[keyof typeof Direction];
 ### CLI
 
 ```shell
-tsx ${[pathToLibrary]}/enum2union/src/index.ts --project-files='./src/**/*.{tsx,ts}'
+tsx ${pathToLibrary}/enum2union/src/index.ts --project-files='./src/**/*.{tsx,ts}'
 ```
 
 ### API
@@ -43,4 +43,6 @@ transform('src/**/*.{tsx,ts,js}')
 
 - [x] transform string enum to union
 - [ ] add helper ObjectValues<T>
+- [ ] insert import of helper after all imports
+- [ ] fix insertStatements https://github.com/dsherret/ts-morph/issues/1192
 - [ ] publish as package
