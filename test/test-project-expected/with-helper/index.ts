@@ -1,3 +1,4 @@
+import { User } from './types/user';
 import { ObjectValues } from "./types/object-values";
 export const Direction = {
     Up: "UP",
@@ -11,3 +12,8 @@ export const ShapeKind = {
     Square: "Square"
 } as const;
 export type ShapeKind = ObjectValues<typeof ShapeKind>;
+
+type Action = {
+    user: User,
+    direction: Direction
+}

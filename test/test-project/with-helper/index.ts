@@ -1,3 +1,5 @@
+import { User } from './types/user';
+
 enum Direction {
   Up = 'UP',
   Down = 'DOWN',
@@ -8,4 +10,9 @@ enum Direction {
 enum ShapeKind {
   Circle = 'Circle',
   Square = 'Square'
+}
+
+type Action = {
+  user: User,
+  direction: Direction
 }

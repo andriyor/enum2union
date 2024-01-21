@@ -1,3 +1,6 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
 import { typeFlag } from 'type-flag';
 import { Project, SyntaxKind, printNode } from 'ts-morph';
 
@@ -10,8 +13,6 @@ import {
   createVariableStatement,
 } from './helpers';
 import { Config, VarMeta } from './types';
-import fs from 'node:fs/promises';
-import path from 'path';
 
 const parsed = typeFlag({
   projectFiles: {
@@ -67,7 +68,10 @@ export const transform = async (config: Config) => {
             const relativePath = path.relative(path.dirname(sourceFile.getFilePath()), path.resolve(config.helperDir));
             const importPath = relativePath ? `./${relativePath}/${helperBaseFileName}` : `./${helperBaseFileName}`;
             const importDeclaration = createImportDeclaration(importPath);
-            sourceFile.insertStatements(0, printNode(importDeclaration));
+
+            const importDeclarations = sourceFile.getChildrenOfKind(SyntaxKind.ImportDeclaration);
+            const lastImportIndex = importDeclarations[importDeclarations.length - 1].getChildIndex();
+            sourceFile.insertStatements(lastImportIndex + 1, printNode(importDeclaration));
             isHelperImported = true;
           }
 

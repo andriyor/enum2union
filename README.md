@@ -43,7 +43,7 @@ transform('src/**/*.{tsx,ts,js}')
 
 - [x] transform string enum to union
 - [x] add helper ObjectValues<T>
-- [ ] insert import of helper after all imports
+- [x] insert import of helper after all imports
 - [ ] fix insertStatements https://github.com/dsherret/ts-morph/issues/1192
 - [ ] improve formatting by adding space after type and const declaration
 - [ ] publish as package
