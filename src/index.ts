@@ -1,21 +1,27 @@
+import { typeFlag } from 'type-flag';
 import { Project, SyntaxKind, printNode } from 'ts-morph';
 
 import {
+  createObjectFromEnum,
   createObjectLiteralExpression,
   createTypeAliasDeclaration,
   createVariableStatement,
-  trimQuotes,
 } from './helpers';
-import { ObjectMeta, StringObject } from './types';
+import { VarMeta } from './types';
+
+const parsed = typeFlag({
+  projectFiles: {
+    type: String,
+    alias: 'f',
+  },
+});
 
 export const transform = (projectFiles: string) => {
-  const project = new Project({
-    tsConfigFilePath: 'tsconfig.json',
-  });
+  const project = new Project({ tsConfigFilePath: 'tsconfig.json' });
 
   const sourceFiles = project.getSourceFiles(projectFiles);
 
-  for (const sourceFile of sourceFiles) {
+  sourceFiles.forEach((sourceFile) => {
     sourceFile.getDescendantsOfKind(SyntaxKind.EnumDeclaration).forEach((enumDeclaration) => {
       const enumMembers = enumDeclaration.getMembers();
       const isStringEnum = enumMembers.every((enumMember) =>
@@ -23,18 +29,13 @@ export const transform = (projectFiles: string) => {
       );
 
       if (isStringEnum) {
-        const object: StringObject = {};
-        enumDeclaration.getMembers().forEach((enumMember) => {
-          object[enumMember.getName()] = trimQuotes(enumMember.getInitializer()!.getText());
-        });
-
-        const obj: ObjectMeta = {
+        const varMeta: VarMeta = {
           name: enumDeclaration.getName(),
-          object: object,
+          object: createObjectFromEnum(enumDeclaration),
         };
 
-        const objectLiteralExpression = createObjectLiteralExpression(obj.object);
-        const variableStatement = createVariableStatement(obj.name, objectLiteralExpression);
+        const objectLiteralExpression = createObjectLiteralExpression(varMeta.object);
+        const variableStatement = createVariableStatement(varMeta.name, objectLiteralExpression);
 
         const enumIndex = enumDeclaration.getChildIndex();
 
@@ -43,15 +44,21 @@ export const transform = (projectFiles: string) => {
         // https://github.com/dsherret/ts-morph/issues/1192
         sourceFile.insertStatements(enumIndex, printNode(variableStatement));
 
-        const typeAliasDeclaration = createTypeAliasDeclaration(obj.name);
+        const typeAliasDeclaration = createTypeAliasDeclaration(varMeta.name);
 
         // https://github.com/dsherret/ts-morph/issues/1192
         sourceFile.insertStatements(enumIndex + 1, '\n' + printNode(typeAliasDeclaration));
       }
     });
-  }
+  });
 
   return project.save();
 };
 
-// transform('./test/test-project/**');
+if (parsed.flags.projectFiles) {
+  void transform(parsed.flags.projectFiles);
+} else {
+  console.log('provide --project-files option');
+}
+
+// transform('./test/test-project/**/*.{tsx,ts}');

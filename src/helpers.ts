@@ -1,4 +1,5 @@
-import { ts } from 'ts-morph';
+import { EnumDeclaration, ts } from 'ts-morph';
+
 import { StringObject } from './types';
 
 export const trimQuotes = (str: string) => {
@@ -45,4 +46,14 @@ export const createTypeAliasDeclaration = (name: string) => {
       ),
     ),
   );
+};
+
+export const createObjectFromEnum = (enumDeclaration: EnumDeclaration) => {
+  const object: StringObject = {};
+  enumDeclaration.getMembers().forEach((enumMember) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    object[enumMember.getName()] = trimQuotes(enumMember.getInitializer()?.getText());
+  });
+  return object;
 };

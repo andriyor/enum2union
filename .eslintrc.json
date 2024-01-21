@@ -1,0 +1,10 @@
+{
+  "extends": ["plugin:@typescript-eslint/strict-type-checked"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "project": true,
+    "tsconfigRootDir": "__dirname"
+  },
+  "root": true
+}
