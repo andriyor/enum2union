@@ -14,7 +14,7 @@ const getProjectFilesByPath = (projectPath: string) => {
 };
 
 export const prepareTestCases = () => {
-  const testProjectFiles = getProjectFilesByPath('test/test-project');
-  const testProjectFilesExpected = getProjectFilesByPath('test/test-project-expected');
+  const testProjectFiles = getProjectFilesByPath(path.join(process.cwd(), 'test/test-project'));
+  const testProjectFilesExpected = getProjectFilesByPath(path.join(process.cwd(), 'test/test-project-expected'));
   return zip([testProjectFiles, testProjectFilesExpected]);
 };
