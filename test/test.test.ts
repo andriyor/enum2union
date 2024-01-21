@@ -11,11 +11,11 @@ const exec = util.promisify(require('node:child_process').exec);
 
 beforeAll(async () => {
   await transform({
-    projectFiles: path.join(process.cwd(), './test/test-project/without-helper/**/*.{tsx,ts}'),
+    projectFiles: path.join(__dirname, 'test-project/without-helper/**/*.{tsx,ts}'),
   });
   await transform({
-    projectFiles: path.join(process.cwd(), './test/test-project/with-helper/**/*.{tsx,ts}'),
-    helperDir: path.join(process.cwd(), './test/test-project/with-helper/types'),
+    projectFiles: path.join(__dirname, 'test-project/with-helper/**/*.{tsx,ts}'),
+    helperDir: path.join(__dirname, 'test-project/with-helper/types'),
   });
 });
 
