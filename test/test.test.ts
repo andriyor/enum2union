@@ -1,5 +1,6 @@
 import util from 'node:util';
 import fs from 'node:fs';
+import path from 'node:path';
 
 import { beforeAll, describe, it, expect, afterAll } from 'vitest';
 
@@ -10,11 +11,11 @@ const exec = util.promisify(require('node:child_process').exec);
 
 beforeAll(async () => {
   await transform({
-    projectFiles: './test/test-project/without-helper/**/*.{tsx,ts}',
+    projectFiles: path.join(process.cwd(), './test/test-project/without-helper/**/*.{tsx,ts}'),
   });
   await transform({
-    projectFiles: './test/test-project/with-helper/**/*.{tsx,ts}',
-    helperDir: './test/test-project/with-helper/types',
+    projectFiles: path.join('./test/test-project/with-helper/**/*.{tsx,ts}'),
+    helperDir: path.join('./test/test-project/with-helper/types'),
   });
 });
 
