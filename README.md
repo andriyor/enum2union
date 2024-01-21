@@ -12,7 +12,7 @@ enum Direction {
 }
 ```
 
-- Output:
+- Output without helperDir option:
 ```ts
 export const Direction = {
     Up: "UP",
@@ -21,13 +21,23 @@ export const Direction = {
 export type Direction = (typeof Direction)[keyof typeof Direction];
 ```
 
+- Output with helperDir option:
+```ts
+import { ObjectValues } from "./types/object-values";
+export const Direction = {
+    Up: "UP",
+    Down: "DOWN",
+} as const;
+export type Direction = ObjectValues<typeof Direction>;
+```
+
 
 ## Usage
 
 ### CLI
 
 ```shell
-tsx ${pathToLibrary}/enum2union/src/index.ts --project-files='./src/**/*.{tsx,ts}'
+tsx ${pathToLibrary}/enum2union/src/index.ts --project-files='./src/**/*.{tsx,ts}' --helper-dir='src/types/helpers'
 ```
 
 ### API
@@ -35,7 +45,10 @@ tsx ${pathToLibrary}/enum2union/src/index.ts --project-files='./src/**/*.{tsx,ts
 ```ts
 import { transform } from './src/index.ts';
 
-transform('src/**/*.{tsx,ts,js}')
+transform({
+  projectFiles: './src/**/*.{tsx,ts}',
+  helperDir: './src/types',
+});
 ```
 
 ## TODO
