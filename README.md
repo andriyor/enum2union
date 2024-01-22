@@ -78,4 +78,6 @@ transform({
 - [x] insert import of helper after all imports
 - [ ] fix insertStatements https://github.com/dsherret/ts-morph/issues/1192
 - [ ] improve formatting by adding space after type and const declaration
+- [ ] support import alias
+- [ ] use ts for resolving import https://github.com/microsoft/TypeScript/issues/50187
 - [ ] publish as package
