@@ -67,10 +67,21 @@ transform({
 
 https://www.typescriptlang.org/docs/handbook/enums.html#objects-vs-enums
 
+[Alternatives to enums in TypeScript](https://2ality.com/2020/02/enum-alternatives-typescript.html#summary-of-enums-and-enum-alternatives)
+
 
 ## Related Projects
 
 [benjlevesque/codemod-enum-to-union](https://github.com/benjlevesque/codemod-enum-to-union) doesn't have ObjectValues helper, the code is formatted worse
+
+## ESLint
+
+[cartant/eslint-plugin-etc: More general-purpose (TypeScript-related) ESLint rules](https://github.com/cartant/eslint-plugin-etc)
+
+[shian15810/eslint-plugin-typescript-enum: ESLint rules for TypeScript enums.](https://github.com/shian15810/eslint-plugin-typescript-enum)
+
+https://typescript-eslint.io/linting/troubleshooting/#how-can-i-ban-specific-language-feature
+
 
 
 ## TODO
