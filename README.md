@@ -65,6 +65,8 @@ transform({
 
 [Enums are MISUNDERSTOOD (not terrible): Josh Goldberg, typescript-eslint maintainer - YouTube](https://youtu.be/XTXPKbPcvl4?si=fM0egcwNxVatXDsN&t=1146)
 
+https://www.typescriptlang.org/docs/handbook/enums.html#objects-vs-enums
+
 
 ## Related Projects
 
